@@ -23,6 +23,8 @@ async function run() {
       console.log('Database Connected');
       const database = client.db("tourism");
 
+      
+
       //Destinations
       const destinationCollections = database.collection("destinations");
       app.get('/destinations', async(req, res)=> {
@@ -44,6 +46,7 @@ async function run() {
 
           res.json(result);
       });
+
       
       //Bookings
       const bookingCollections = database.collection("bookings");
@@ -86,7 +89,15 @@ async function run() {
           const result = await bookingCollections.updateOne(query, updateDoc, options);
           res.json(result);
       });
-      
+
+      //Services
+      const serviceCollections = database.collection("services");
+      app.get('/services', async(req, res)=> {
+        const cursor = serviceCollections.find({});
+        const services = await cursor.toArray();
+        res.json(services);
+      });
+
     } finally {
     //   await client.close();
     }
